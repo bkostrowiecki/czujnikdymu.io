@@ -1,12 +1,12 @@
 import { GigTile } from "@/app/gigs/gig-tile";
 import UnexpectedErrorPage from "@/components/unexpected-error-page";
-import { createPb } from "@/services/pocketbase";
+import { createPbInstance } from "@/services/pocketbase";
 import { Alert, Col, Container, Row } from "react-bootstrap";
 import { PlaceTile } from "./place-tile";
 import { PlaceEntity } from "@/entities/place.entity";
 
 export default async function PlacesPage() {
-  const pb = createPb();
+  const pb = createPbInstance();
 
   let places;
   try {

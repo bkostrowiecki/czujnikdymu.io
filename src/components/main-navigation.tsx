@@ -1,5 +1,6 @@
 "use client";
 
+import { appName } from "@/const/app-name";
 import Link from "next/link";
 import {
   Button,
@@ -16,7 +17,7 @@ export function MainNavigation() {
     <Navbar className="shadow-lg bg-light" variant="light" fixed="top">
       <Container>
         <NavbarBrand as={Link} href="/">
-          CzujnikDymu.app
+          {appName}
         </NavbarBrand>
         <Nav navbar className="gap-4">
           <NavItem>
@@ -38,8 +39,9 @@ export function MainNavigation() {
             <NavLink as={Link} href="/konto">Twoje Konto</NavLink>
           </NavItem> */}
         </Nav>
-        <NavItem>
-          <Button color="primary">Załóż konto</Button>
+        <NavItem className="gap-2 d-flex">
+          <Button color="primary" variant="outline-primary" as={Link as any} href="/account/sign-in">Zaloguj się</Button>
+          <Button color="primary" as={Link as any} href="/account/sign-up">Załóż konto</Button>
         </NavItem>
       </Container>
     </Navbar>

@@ -1,4 +1,4 @@
-import { createPb } from "@/services/pocketbase";
+import { createPbInstance } from "@/services/pocketbase";
 import {
   Badge,
   Button,
@@ -15,7 +15,7 @@ import { CityEntity } from "@/entities/city.entity";
 import { GenreEntity } from "@/entities/genre.entity";
 
 export default async function Home() {
-  const pb = createPb();
+  const pb = createPbInstance();
 
   const cities = await pb.collection("cities").getFullList<CityEntity>();
   const genres = await pb.collection("genres").getFullList<GenreEntity>();

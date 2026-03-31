@@ -1,5 +1,24 @@
+<Row>
+  <Col>
 # Kontakt
+  Możesz spróbować złapać nas na mediach "społecznościowych"
 
-Możesz spróbować złapać nas na mediach "społecznościowych":
+<div className="pb-4 mt-n1">
+<SocialMediaLinks />
+</div>
 
 Lub użyć formularza kontaktowego.
+
+Odpiszemy Ci wtedy na wskazany przez Ciebie adres email.
+
+</Col>
+  <Col lg={6} className="pb-5">
+    <Card body className="shadow-lg p-3">
+        <ContactForm
+            title="Formularz kontaktowy"
+            context="contactForm"
+            userEmail=""
+        />
+    </Card>
+  </Col>
+</Row>

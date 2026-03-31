@@ -51,6 +51,14 @@ const nextConfig: NextConfig = {
       {
         source: '/wykonawcy',
         destination: '/artists'
+      },
+      {
+        source: '/zaloguj-sie',
+        destination: '/account/sign-in'
+      },
+      {
+        source: '/zaloz-konto',
+        destination: '/account/sign-up'
       }
     ]
   }

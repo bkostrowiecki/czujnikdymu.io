@@ -1,6 +1,6 @@
 import UnexpectedErrorPage from "@/components/unexpected-error-page";
 import { PlaceEntity } from "@/entities/place.entity";
-import { createPb } from "@/services/pocketbase";
+import { createPbInstance } from "@/services/pocketbase";
 import Link from "next/link";
 import { Breadcrumb, BreadcrumbItem, Col, Container, Row } from "react-bootstrap";
 
@@ -11,7 +11,7 @@ export default async function PlacePage({
     id: string;
   };
 }) {
-    const pb = createPb();
+    const pb = createPbInstance();
 
   const { id } = await params;
 

@@ -1,5 +1,7 @@
+import { appName } from "@/const/app-name";
 import Link from "next/link";
 import { Button, Col, Container, Row, Stack } from "react-bootstrap";
+import { SocialMediaLinks } from "./social-media-links";
 
 export function MainFooter() {
   return (
@@ -13,13 +15,14 @@ export function MainFooter() {
                 <Link href="/miejsca">Miejsca</Link>
                 <Link href="/wykonawcy">Wykonawcy</Link>
                 <Link href="/zaloz-konto">Załóż Konto</Link>
+                <Link href="/zaloguj-sie">Zaloguj się</Link>
               </Stack>
             </Col>
             <Col>
               <Stack>
                 <Link href="/o-czujniku-dymu">O czujniku dymu</Link>
                 <Link href="/support">Wsparcie</Link>
-                <Link href="/cooperation">Współpraca</Link>
+                <Link href="/wspolpraca">Współpraca</Link>
                 <Link href="/kontakt">Kontakt</Link>
               </Stack>
             </Col>
@@ -31,24 +34,13 @@ export function MainFooter() {
               </Stack>
             </Col>
             <Col>
-              <Button variant="link" href="https://fb.com" target="_blank">
-                <i className="bi bi-facebook fs-3"></i>
-              </Button>
-              <Button variant="link" href="https://discord.com" target="_blank">
-                <i className="bi bi-discord fs-3"></i>
-              </Button>
-              <Button variant="link" href="https://instagram.com" target="_blank">
-                <i className="bi bi-instagram fs-3"></i>
-              </Button>
-              <Button variant="link" href="https://tiktok.com" target="_blank">
-                <i className="bi bi-tiktok fs-3"></i>
-              </Button>
+              <SocialMediaLinks />
             </Col>
           </Row>
         </Container>
       </div>
       <div className="bg-dark text-light text-center">
-        <small>&copy; Czujnikdymu.io</small>
+        <small>&copy; {appName}</small>
       </div>
     </div>
   );

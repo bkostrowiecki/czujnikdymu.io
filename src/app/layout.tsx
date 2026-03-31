@@ -3,20 +3,21 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.scss";
 import { MainNavigation } from "@/components/main-navigation";
 import { MainFooter } from "@/components/main-footer";
+import { appName } from "@/const/app-name";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 export const metadata: Metadata = {
-  title: "CzujnikDymu.app",
-  description: "CzujnikDymu.app",
+  title: appName,
+  description: appName,
 };
 
 export default function RootLayout({
