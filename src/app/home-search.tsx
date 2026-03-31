@@ -45,6 +45,7 @@ export function HomeSearch({
             genres.map((genre) => {
               return (
                 <ToggleButton
+                  key={genre.id}
                   variant="outline-info"
                   className="rounded-pill"
                   id={genre.id}

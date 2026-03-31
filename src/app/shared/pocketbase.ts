@@ -1,8 +1,7 @@
 import { createPbInstance } from "@/services/pocketbase";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
 
-export async function initializePb(res: NextResponse) {
+export async function initializePb() {
   const pb = createPbInstance();
 
   const reqCookies = await cookies();
@@ -10,13 +9,13 @@ export async function initializePb(res: NextResponse) {
   pb.authStore.loadFromCookie(reqCookies.toString() || '');
 
   pb.authStore.onChange(() => {
-    res.headers.set('set-cookie', pb.authStore.exportToCookie());
+    reqCookies.set('set-cookie', pb.authStore.exportToCookie());
   });
 
   try {
-      pb.authStore.isValid && await pb.collection('users').authRefresh();
+    pb.authStore.isValid && await pb.collection('users').authRefresh();
   } catch (_) {
-      pb.authStore.clear();
+    pb.authStore.clear();
   }
 
   return pb;

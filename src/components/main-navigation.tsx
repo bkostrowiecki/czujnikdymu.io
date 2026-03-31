@@ -40,8 +40,7 @@ export function MainNavigation() {
           </NavItem> */}
         </Nav>
         <NavItem className="gap-2 d-flex">
-          <Button color="primary" variant="outline-primary" as={Link as any} href="/account/sign-in">Zaloguj się</Button>
-          <Button color="primary" as={Link as any} href="/account/sign-up">Załóż konto</Button>
+          <Button color="primary" as={Link as any} href="/zaloguj-sie">Zaloguj się</Button>
         </NavItem>
       </Container>
     </Navbar>

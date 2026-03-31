@@ -14,7 +14,7 @@ export function MainFooter() {
                 <Link href="/koncerty">Koncerty</Link>
                 <Link href="/miejsca">Miejsca</Link>
                 <Link href="/wykonawcy">Wykonawcy</Link>
-                <Link href="/zaloz-konto">Załóż Konto</Link>
+                <Link href="/zaloguj-sie">Zarejestruj się</Link>
                 <Link href="/zaloguj-sie">Zaloguj się</Link>
               </Stack>
             </Col>
@@ -24,6 +24,7 @@ export function MainFooter() {
                 <Link href="/support">Wsparcie</Link>
                 <Link href="/wspolpraca">Współpraca</Link>
                 <Link href="/kontakt">Kontakt</Link>
+                <Link href="/faq">FAQ</Link>
               </Stack>
             </Col>
             <Col>

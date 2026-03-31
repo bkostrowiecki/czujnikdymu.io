@@ -13,9 +13,10 @@ import {
 import { HomeSearch } from "./home-search";
 import { CityEntity } from "@/entities/city.entity";
 import { GenreEntity } from "@/entities/genre.entity";
+import { initializePb } from "./shared/pocketbase";
 
 export default async function Home() {
-  const pb = createPbInstance();
+  const pb = await initializePb();
 
   const cities = await pb.collection("cities").getFullList<CityEntity>();
   const genres = await pb.collection("genres").getFullList<GenreEntity>();

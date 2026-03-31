@@ -8,3 +8,22 @@
         cursor: pointer !important;
     }
 }
+
+
+.header-a {
+    color: var(--bs-body-color) !important;
+    text-decoration: none;
+    position: relative;
+
+    &:after {
+        content: '';
+    }
+
+    &:hover:after {
+        content: '🔗';
+        position: absolute;
+        float: left;
+        left: -20px;
+        bottom: 5px;
+    }
+}

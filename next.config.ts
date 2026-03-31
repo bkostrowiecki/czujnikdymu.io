@@ -55,10 +55,6 @@ const nextConfig: NextConfig = {
       {
         source: '/zaloguj-sie',
         destination: '/account/sign-in'
-      },
-      {
-        source: '/zaloz-konto',
-        destination: '/account/sign-up'
       }
     ]
   }
