@@ -3,7 +3,11 @@ import Link from "next/link";
 import { Button, Col, Container, Row, Stack } from "react-bootstrap";
 import { SocialMediaLinks } from "./social-media-links";
 
-export function MainFooter() {
+type Props = {
+  userRecord: any
+}
+
+export function MainFooter(props: Props) {
   return (
     <div>
       <div className="bg-light border-top py-4 pb-5">
@@ -14,8 +18,9 @@ export function MainFooter() {
                 <Link href="/koncerty">Koncerty</Link>
                 <Link href="/miejsca">Miejsca</Link>
                 <Link href="/wykonawcy">Wykonawcy</Link>
-                <Link href="/zaloguj-sie">Zarejestruj się</Link>
-                <Link href="/zaloguj-sie">Zaloguj się</Link>
+                {!props.userRecord && <Link href="/zaloguj-sie">Zarejestruj się</Link>}
+                {!props.userRecord && <Link href="/zaloguj-sie">Zaloguj się</Link>}
+                {props.userRecord && <Link href="/konto">Twoje konto</Link>}
               </Stack>
             </Col>
             <Col>

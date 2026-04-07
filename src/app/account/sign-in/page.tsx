@@ -1,6 +1,6 @@
-"use client";
-
+import { initializeSsrPb } from "@/app/shared/pocketbase-ssr";
 import { appName } from "@/const/app-name";
+import { createPbInstance } from "@/services/pocketbase";
 import Link from "next/link";
 import {
   Alert,
@@ -11,8 +11,23 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
+import { headers } from "next/headers";
 
-export const SignInPage = () => {
+const pb = createPbInstance();
+
+export const SignInPage = async () => {
+  const authMethods = await pb.collection("users").listAuthMethods();
+  const providers = authMethods.oauth2.providers || [];
+
+  const headerList = await headers();
+  const currentDomain = headerList.get("x-current-domain");
+
+  const redirectUrl = `${currentDomain}/account/oauth2`;
+
+  const openLink = async (url: string) => {
+    location.href = url;
+  };
+
   return (
     <>
       <Container className="pt-5">
@@ -23,15 +38,28 @@ export const SignInPage = () => {
                 <h2>Zaloguj się</h2>
                 <p>
                   <Alert variant="warning">
-                    Pierwsze logowanie daną usługą oznacza
-                    akceptację <Link href="/regulamin">regulaminu</Link>, <Link href="/polityka-prywatnosci">polityki prywatności</Link> i rejestrację konta
+                    Pierwsze logowanie daną usługą oznacza akceptację{" "}
+                    <Link href="/regulamin">regulaminu</Link>,{" "}
+                    <Link href="/polityka-prywatnosci">
+                      polityki prywatności
+                    </Link>{" "}
+                    i rejestrację konta
                   </Alert>
                 </p>
                 <div className="d-flex flex-column gap-2 pb-2">
-                  <Button><i className="bi bi-google" /> Google</Button>
-                  <Button><i className="bi bi-instagram" /> Instagram</Button>
-                  <Button><i className="bi bi-discord" /> Discord</Button>
-                  <Button><i className="bi bi-facebook" /> Facebook</Button>
+                  {providers.map((provider) => {
+                    const oAuthUrl =
+                      provider.authURL + redirectUrl + "/" + provider.name;
+
+                    return (
+                      <Button
+                        as="a"
+                        href={`/account/oauth2?oAuthUrl=${Buffer.from(oAuthUrl, "utf8").toString("base64url")}&codeVerifier=${provider.codeVerifier}`}
+                      >
+                        {provider.displayName}
+                      </Button>
+                    );
+                  })}
                 </div>
                 <div className="d-flex justify-content-center align-items-center flex-column">
                   <Button

@@ -10,8 +10,16 @@ const nextConfig: NextConfig = {
     quietDeps: true
   },
 
+  images: {
+    domains: ['upload.wikimedia.org', 'localhost']
+  },
+
   async rewrites() {
     return [
+      {
+        source: "/konto",
+        destination: "/account"
+      },
       {
         source: '/koncerty',
         destination: '/gigs'
