@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { appName } from "@/const/app-name";
 import { Button, Card, Form } from "react-bootstrap";
+import { appName } from "@/const/app-name";
 
 type Props = {
   context: string;

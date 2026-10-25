@@ -1,75 +1,107 @@
+import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
-import createMDX from '@next/mdx'
 
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
 
   sassOptions: {
-    quietDeps: true
+    quietDeps: true,
   },
 
   images: {
-    domains: ['upload.wikimedia.org', 'localhost']
+    domains: ["upload.wikimedia.org", "localhost"],
   },
 
   async rewrites() {
     return [
       {
+        source: "/index.html",
+        destination: "/",
+      },
+      {
         source: "/konto",
-        destination: "/account"
+        destination: "/account",
       },
       {
-        source: '/koncerty',
-        destination: '/gigs'
+        source: "/moderacja",
+        destination: "/moderation",
       },
       {
-        source: '/polityka-prywatnosci',
-        destination: '/privacy-policy'
+        source: "/scrapper",
+        destination: "/scrapper",
       },
       {
-        source: '/regulamin',
-        destination: '/rules',
+        source: "/scapper",
+        destination: "/scrapper",
       },
       {
-        source: '/o-czujniku-dymu',
-        destination: '/about'
+        source: "/koncerty",
+        destination: "/gigs",
       },
       {
-        source: '/kontakt',
-        destination: '/contact'
+        source: "/koncerty/:id",
+        destination: "/gigs/:id",
       },
       {
-        source: '/wspolpraca',
-        destination: '/cooperation'
+        source: "/polityka-prywatnosci",
+        destination: "/privacy-policy",
       },
       {
-        source: '/wsparcie',
-        destination: '/support'
+        source: "/regulamin",
+        destination: "/rules",
       },
       {
-        source: '/miejsca',
-        destination: '/places'
+        source: "/o-czujniku-dymu",
+        destination: "/about",
       },
       {
-        source: '/miejsca/:id',
-        destination: '/places/:id'
+        source: "/kontakt",
+        destination: "/contact",
       },
       {
-        source: '/wykonawcy',
-        destination: '/artists'
+        source: "/wspolpraca",
+        destination: "/cooperation",
       },
       {
-        source: '/zaloguj-sie',
-        destination: '/account/sign-in'
-      }
-    ]
-  }
+        source: "/wsparcie",
+        destination: "/support",
+      },
+      {
+        source: "/miejsca",
+        destination: "/places",
+      },
+      {
+        source: "/miejsca/:id",
+        destination: "/places/:id",
+      },
+      {
+        source: "/wykonawcy",
+        destination: "/artists",
+      },
+      {
+        source: "/wykonawcy/:id",
+        destination: "/artists/:id",
+      },
+      {
+        source: "/zaloguj-sie",
+        destination: "/account/sign-in",
+      },
+      {
+        source: "/gatunek/:slug",
+        destination: "/genre/:slug",
+      },
+      {
+        source: "/gatunki/:slug",
+        destination: "/genre/:slug",
+      },
+    ];
+  },
 };
 
 const withMDX = createMDX({
   extension: /\.(md|mdx)$/,
-})
+});
 
 export default withMDX(nextConfig);

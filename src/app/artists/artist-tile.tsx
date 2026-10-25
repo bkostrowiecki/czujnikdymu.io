@@ -1,21 +1,81 @@
-import { Badge, Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle, Row } from "react-bootstrap";
+"use client";
 
-export function ArtistTile() {
+import Link from "next/link";
+import {
+  Badge,
+  Card,
+  CardBody,
+  CardImg,
+  CardText,
+  CardTitle,
+} from "react-bootstrap";
+import { usePocketBase } from "@/app/shared/pocketbase-client-provider";
+import { getPbFileUrl } from "@/app/shared/pocketbase-files";
+import { FavoriteButton } from "@/components/favorite-button";
+import type { ArtistEntity } from "@/entities/artist.entity";
+
+export function ArtistTile({ artist }: { artist: ArtistEntity }) {
+  const pb = usePocketBase();
+  const genres = artist.expand?.genres ?? [];
+  const imageUrl = artist.coverImage
+    ? getPbFileUrl(artist, artist.coverImage, pb)
+    : null;
+
   return (
-    <Card className="shadow-lg">
-      <CardImg
-        src={
-          "https://scontent.fpoz5-1.fna.fbcdn.net/v/t39.30808-6/434254110_978931570254833_4377318839728988009_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=No9L8pn_UuQQ7kNvwFSgGYP&_nc_oc=AdnQeyoWVnGBIgoWagoDV9XAE6cu0e3VkGDUWivcy8WqIfv-RI9Jb8WIhGRm3iew2kc&_nc_zt=23&_nc_ht=scontent.fpoz5-1.fna&_nc_gid=rvTzFWyqWggPfQL_zhGtfw&oh=00_AfssI2RHQtbzR4eGVnDEsz-jvVu213OpGKYA-T5jlomOaQ&oe=69A42A2D"
-        }
-      ></CardImg>
-
+    <Card className="shadow-sm h-100 position-relative overflow-hidden card-hover">
+      <div className="position-absolute top-0 end-0 m-2" style={{ zIndex: 5 }}>
+        <FavoriteButton artistId={artist.id} />
+      </div>
+      {imageUrl && (
+        <div
+          style={{
+            height: "180px",
+            overflow: "hidden",
+            backgroundColor: "#1a1d20",
+          }}
+        >
+          <CardImg
+            variant="top"
+            src={imageUrl}
+            alt={artist.name}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </div>
+      )}
       <CardBody>
-        <CardTitle>Fu Manchu</CardTitle>
-        <CardText className="mt-2">
-          <div className="d-flex flex-wrap gap-1 max-w-100">
-          <Badge>Stoner</Badge>
-          </div>
-        </CardText>
+        <CardTitle>
+          <Link
+            href={`/wykonawcy/${artist.slug || artist.id}`}
+            className="text-decoration-none text-light stretched-link"
+          >
+            {artist.name}
+          </Link>
+        </CardTitle>
+        {genres.length > 0 && (
+          <CardText
+            as="div"
+            className="mt-2 mb-0 position-relative"
+            style={{ zIndex: 2 }}
+          >
+            <div className="d-flex flex-wrap gap-1">
+              {genres.map((genre) => (
+                <Link
+                  key={genre.id}
+                  href={`/genre/${genre.slug || genre.id}`}
+                  className="text-decoration-none"
+                >
+                  <Badge
+                    bg="transparent"
+                    className="border border-info text-info"
+                    style={{ cursor: "pointer" }}
+                  >
+                    {genre.name}
+                  </Badge>
+                </Link>
+              ))}
+            </div>
+          </CardText>
+        )}
       </CardBody>
     </Card>
   );

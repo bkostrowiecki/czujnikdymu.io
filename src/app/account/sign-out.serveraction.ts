@@ -1,11 +1,11 @@
-'use server';
+"use server";
 
 import { clearSsrPbCookie } from "../shared/pocketbase-ssr";
 
 export async function signOutAction() {
-    await clearSsrPbCookie();
+  await clearSsrPbCookie();
 
-    return {
-        success: true
-    }
+  return {
+    success: true,
+  };
 }

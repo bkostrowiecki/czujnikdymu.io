@@ -1,7 +1,8 @@
-import { initializeSsrPb, setSsrPbCookie } from "@/app/shared/pocketbase-ssr";
-import { createPbInstance } from "@/services/pocketbase";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
+import { syncUserAvatar } from "@/app/shared/pocketbase-avatar";
+import { setSsrPbCookie } from "@/app/shared/pocketbase-ssr";
+import { createPbInstance } from "@/services/pocketbase";
 
 export const GET = async (
   request: NextRequest,
@@ -23,32 +24,41 @@ export const GET = async (
 
   const pb = await createPbInstance();
 
-  const codeVerifier = await cookiesReq.get('codeVerifier');
+  const codeVerifier = await cookiesReq.get("codeVerifier");
+  const code = searchParams.get("code");
 
-  if (!codeVerifier) {
-    return new Response('No verifier');
+  if (!codeVerifier || !code) {
+    return new NextResponse("Missing verifier or code", { status: 400 });
   }
 
   try {
     const response = await pb
       .collection("users")
-      .authWithOAuth2Code(
-        provider,
-        searchParams.get("code")!.toString(),
-        codeVerifier.value,
-        redirectUrl, {}
-      );
+      .authWithOAuth2Code(provider, code, codeVerifier.value, redirectUrl, {});
 
     if (response.record && response.token) {
-      await setSsrPbCookie(pb);
+      try {
+        await syncUserAvatar(
+          pb,
+          response.record.id,
+          response.meta as Record<string, unknown> | undefined,
+        );
+      } catch (avatarError) {
+        console.error("Failed to sync avatar:", avatarError);
+      }
 
-      return Response.redirect(domain);
+      await setSsrPbCookie(pb);
+      cookiesReq.delete("codeVerifier");
+
+      return NextResponse.redirect(domain);
     } else {
-      return Response.redirect(`${domain}/zaloguj-sie?error=true&provider=${provider}`);
+      return NextResponse.redirect(
+        `${domain}/zaloguj-sie?error=true&provider=${provider}`,
+      );
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(`ERROR`);
     console.error(error);
-    return new Response("Error");
+    return new NextResponse("Error", { status: 500 });
   }
 };

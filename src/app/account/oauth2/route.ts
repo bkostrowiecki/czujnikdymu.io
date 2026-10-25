@@ -1,24 +1,29 @@
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   request: NextRequest,
-  ctx: RouteContext<"/account/oauth2">,
+  _ctx: RouteContext<"/account/oauth2">,
 ) => {
-    const cookiesReq = await cookies();
+  const cookiesReq = await cookies();
 
-    const { searchParams } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
 
-    const codeVerifier = searchParams.get('codeVerifier');
-    const oAuthUrl = searchParams.get('oAuthUrl');
+  const codeVerifier = searchParams.get("codeVerifier");
+  const oAuthUrl = searchParams.get("oAuthUrl");
 
-    if (!codeVerifier || !oAuthUrl) {
-        return new Response('Error');
-    }
+  if (!codeVerifier || !oAuthUrl) {
+    return new NextResponse("Error", { status: 400 });
+  }
 
-    cookiesReq.set('codeVerifier', codeVerifier);
+  cookiesReq.set("codeVerifier", codeVerifier, {
+    path: "/",
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+  });
 
-    const decodedUrl = Buffer.from(oAuthUrl, 'base64url').toString('utf8');
+  const decodedUrl = Buffer.from(oAuthUrl, "base64url").toString("utf8");
 
-    return Response.redirect(decodedUrl);
+  return NextResponse.redirect(decodedUrl);
 };

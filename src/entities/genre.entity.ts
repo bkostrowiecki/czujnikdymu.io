@@ -1,10 +1,12 @@
 export type GenreId = string & {
-    __brand: 'genre';
-}
+  __brand: "genre";
+};
 
 export interface GenreEntity {
-    id: GenreId;
-    name: string;
-    created: Date;
-    updated: Date;
+  id: GenreId;
+  slug: string;
+  name: string;
+  searchTerms?: string;
+  created: Date;
+  updated: Date;
 }

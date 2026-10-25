@@ -1,3 +1,3 @@
 export type UrlVO = {
-    __brand: 'url'
+  __brand: "url";
 } & string;

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import UnexpectedError from "@/components/unexpected-error";
 
 export default function GlobalError() {
-    return <UnexpectedError />;
+  return <UnexpectedError />;
 }

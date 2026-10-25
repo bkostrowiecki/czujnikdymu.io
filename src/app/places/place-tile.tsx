@@ -1,28 +1,64 @@
-import { PlaceEntity } from "@/entities/place.entity";
+"use client";
+
 import Link from "next/link";
-import { Badge, Card, CardBody, CardImg, CardSubtitle, CardText, CardTitle, Row } from "react-bootstrap";
+import {
+  Card,
+  CardBody,
+  CardImg,
+  CardSubtitle,
+  CardTitle,
+} from "react-bootstrap";
+import { usePocketBase } from "@/app/shared/pocketbase-client-provider";
+import { getPbFileUrl } from "@/app/shared/pocketbase-files";
+import { FavoriteButton } from "@/components/favorite-button";
+import type { PlaceEntity } from "@/entities/place.entity";
 
 type Props = {
-    place: PlaceEntity;
-}
+  place: PlaceEntity;
+};
 
 export function PlaceTile(props: Props) {
+  const pb = usePocketBase();
+  const imageUrl = props.place.coverImage
+    ? getPbFileUrl(props.place, props.place.coverImage, pb)
+    : props.place.coverImageUrl || null;
+
   return (
-    <Card className="shadow-lg">
-      <Link href={"/miejsca/" + props.place.id}>
-      <CardImg
-        src={
-          props.place.coverImageUrl
-        }
-      ></CardImg>
-      </Link>
+    <Card className="shadow-sm h-100 position-relative overflow-hidden card-hover">
+      <div className="position-absolute top-0 end-0 m-2" style={{ zIndex: 5 }}>
+        <FavoriteButton placeId={props.place.id} />
+      </div>
+      {imageUrl && (
+        <div
+          style={{
+            height: "180px",
+            overflow: "hidden",
+            backgroundColor: "#1a1d20",
+          }}
+        >
+          <CardImg
+            variant="top"
+            src={imageUrl}
+            alt={props.place.name}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </div>
+      )}
 
       <CardBody>
-        <CardTitle>{props.place.name}</CardTitle>
-        <CardSubtitle>{props.place.city}</CardSubtitle>
-        <CardText className="mt-2">
-          {props.place.city}
-        </CardText>
+        <CardTitle>
+          <Link
+            href={`/miejsca/${props.place.slug || props.place.id}`}
+            className="text-decoration-none text-light stretched-link"
+          >
+            {props.place.name}
+          </Link>
+        </CardTitle>
+        {props.place.address && (
+          <CardSubtitle className="text-secondary small mt-1">
+            {props.place.address}
+          </CardSubtitle>
+        )}
       </CardBody>
     </Card>
   );

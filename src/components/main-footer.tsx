@@ -1,16 +1,16 @@
-import { appName } from "@/const/app-name";
 import Link from "next/link";
 import { Button, Col, Container, Row, Stack } from "react-bootstrap";
+import { appName } from "@/const/app-name";
 import { SocialMediaLinks } from "./social-media-links";
 
 type Props = {
-  userRecord: any
-}
+  userRecord: any;
+};
 
 export function MainFooter(props: Props) {
   return (
-    <div>
-      <div className="bg-light border-top py-4 pb-5">
+    <footer className="d-none d-md-block">
+      <div className="bg-body-tertiary border-top py-4 pb-5">
         <Container>
           <Row>
             <Col>
@@ -18,8 +18,23 @@ export function MainFooter(props: Props) {
                 <Link href="/koncerty">Koncerty</Link>
                 <Link href="/miejsca">Miejsca</Link>
                 <Link href="/wykonawcy">Wykonawcy</Link>
-                {!props.userRecord && <Link href="/zaloguj-sie">Zarejestruj się</Link>}
-                {!props.userRecord && <Link href="/zaloguj-sie">Zaloguj się</Link>}
+                <Link href="/polubione">Polubione</Link>
+                {!props.userRecord && (
+                  <Link href="/zaloguj-sie">Zarejestruj się</Link>
+                )}
+                {!props.userRecord && (
+                  <Link href="/zaloguj-sie">Zaloguj się</Link>
+                )}
+                {props.userRecord?.role === "moderator" && (
+                  <>
+                    <Link href="/moderacja" className="text-warning fw-semibold">
+                      Moderacja
+                    </Link>
+                    <Link href="/scrapper" className="text-warning fw-semibold">
+                      Scrapper
+                    </Link>
+                  </>
+                )}
                 {props.userRecord && <Link href="/konto">Twoje konto</Link>}
               </Stack>
             </Col>
@@ -45,9 +60,9 @@ export function MainFooter(props: Props) {
           </Row>
         </Container>
       </div>
-      <div className="bg-dark text-light text-center">
+      <div className="bg-dark text-body-secondary text-center py-2 border-top">
         <small>&copy; {appName}</small>
       </div>
-    </div>
+    </footer>
   );
 }

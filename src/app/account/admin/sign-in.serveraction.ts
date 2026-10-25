@@ -1,9 +1,9 @@
 // app/account/admin/actions.ts
 "use server";
 
+import { cookies } from "next/headers";
 import { initializeSsrPb, setSsrPbCookie } from "@/app/shared/pocketbase-ssr";
 import { createPbInstance } from "@/services/pocketbase";
-import { cookies } from "next/headers";
 
 type LoginState = {
   success?: boolean;
@@ -12,7 +12,7 @@ type LoginState = {
 
 export async function signInAction(
   prevState: LoginState,
-  formData: FormData
+  formData: FormData,
 ): Promise<LoginState> {
   "use server";
 
@@ -30,7 +30,7 @@ export async function signInAction(
       .collection("users")
       .authWithPassword(email, password);
 
-    setSsrPbCookie(pocketbase);
+    await setSsrPbCookie(pocketbase);
 
     if (!result.record) {
       return { error: "Nieprawidłowe dane logowania" };

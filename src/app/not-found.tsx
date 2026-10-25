@@ -1,4 +1,4 @@
-import './globals.scss';
+import "./globals.scss";
 
 import { headers } from "next/headers";
 import { Col, Container, Row } from "react-bootstrap";

@@ -1,6 +1,4 @@
-import { initializeSsrPb } from "@/app/shared/pocketbase-ssr";
-import { appName } from "@/const/app-name";
-import { createPbInstance } from "@/services/pocketbase";
+import { headers } from "next/headers";
 import Link from "next/link";
 import {
   Alert,
@@ -11,7 +9,9 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
-import { headers } from "next/headers";
+import { initializeSsrPb } from "@/app/shared/pocketbase-ssr";
+import { appName } from "@/const/app-name";
+import { createPbInstance } from "@/services/pocketbase";
 
 const pb = createPbInstance();
 
@@ -36,7 +36,7 @@ export const SignInPage = async () => {
             <Card className="shadow-lg p-3 pt-2" body>
               <Form>
                 <h2>Zaloguj się</h2>
-                <p>
+                <div className="mb-2">
                   <Alert variant="warning">
                     Pierwsze logowanie daną usługą oznacza akceptację{" "}
                     <Link href="/regulamin">regulaminu</Link>,{" "}
@@ -45,7 +45,7 @@ export const SignInPage = async () => {
                     </Link>{" "}
                     i rejestrację konta
                   </Alert>
-                </p>
+                </div>
                 <div className="d-flex flex-column gap-2 pb-2">
                   {providers.map((provider) => {
                     const oAuthUrl =
@@ -53,6 +53,7 @@ export const SignInPage = async () => {
 
                     return (
                       <Button
+                        key={provider.name}
                         as="a"
                         href={`/account/oauth2?oAuthUrl=${Buffer.from(oAuthUrl, "utf8").toString("base64url")}&codeVerifier=${provider.codeVerifier}`}
                       >
@@ -83,12 +84,12 @@ export const SignInPage = async () => {
                 <li>
                   Chcesz sobie sobie zapisywać koncerty, na które chcesz pójść
                 </li>
-                <li>Chcesz dawać artystom feedback po koncercie</li>
+                {/* <li>Chcesz dawać artystom feedback po koncercie</li> */}
               </ul>
 
               <p>
-                Jeśli te punkty nie pokrywają się z jakąkolwiek z tych potrzeb,
-                proszę, nie zakładaj konta.
+                Jeśli te punkty nie pokrywają się z jakąkolwiek z Twoich
+                potrzeb: proszę, nie zakładaj konta.
               </p>
             </Card>
           </Col>

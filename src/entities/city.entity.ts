@@ -1,13 +1,14 @@
-import { PlaceEntity, PlaceId } from "./place.entity";
+import type { PlaceEntity, PlaceId } from "./place.entity";
 
 export type CityId = {
-    __brand: 'city'
+  __brand: "city";
 } & string;
 
 export interface CityEntity {
-    id: CityId;
-    name: string;
-    places: PlaceEntity[] | PlaceId[];
-    created: Date;
-    updated: Date;
+  id: CityId;
+  slug: string;
+  name: string;
+  places: PlaceEntity[] | PlaceId[];
+  created: Date;
+  updated: Date;
 }

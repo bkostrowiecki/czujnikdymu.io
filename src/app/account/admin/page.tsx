@@ -1,18 +1,26 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
-import { Alert, Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import { signInAction } from "./sign-in.serveraction";
 import { redirect } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Row,
+} from "react-bootstrap";
+import { signInAction } from "./sign-in.serveraction";
 
 export const SignInPage = () => {
   const [state, action, isPending] = useActionState(signInAction, {});
 
   useEffect(() => {
     if (state.success) {
-      redirect('/');
+      window.location.href = "/";
     }
-  }, [state.success])
+  }, [state.success]);
 
   return (
     <>
@@ -31,12 +39,17 @@ export const SignInPage = () => {
                   <Form.Control type="password" name="password" />
                 </Form.Group>
                 <Form.Group>
-                  {state.error && <Alert variant='danger'>
-                    {state.error.toString()}
-                  </Alert>}
+                  {state.error && (
+                    <Alert variant="danger">{state.error.toString()}</Alert>
+                  )}
                 </Form.Group>
                 <Form.Group>
-                  <Button variant="primary" type="submit" className="w-100" disabled={isPending}>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="w-100"
+                    disabled={isPending}
+                  >
                     {isPending ? "Logowanie..." : "Zaloguj się"}
                   </Button>
                 </Form.Group>
